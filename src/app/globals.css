@@ -1,0 +1,251 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Habit-tracker light theme — matches the original Google Sheet palette. */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  /* Primary = deep charcoal, like the sheet's bold text */
+  --primary: #1f1f1f;
+  --primary-foreground: #ffffff;
+
+  /* Secondary = soft pink (week-one accent) */
+  --secondary: #fce7f3;
+  --secondary-foreground: #1f1f1f;
+
+  --muted: #f5f5f4;
+  --muted-foreground: #6b7280;
+
+  --accent: #fde2e8;
+  --accent-foreground: #1f1f1f;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --border: #ececec;
+  --input: #ececec;
+  --ring: #d5a6bd;
+
+  /* Week colors (light theme) */
+  --week-1-bg: #ead1dc; /* pink header */
+  --week-1-date: #fff1f7;
+  --week-1-cell: #fff9fb;
+  --week-1-check: #c27ba0;
+
+  --week-2-bg: #cfe2f3;
+  --week-2-date: #edf6ff;
+  --week-2-cell: #f5faff;
+  --week-2-check: #376092;
+
+  --week-3-bg: #fff2cc;
+  --week-3-date: #fff8e7;
+  --week-3-cell: #fffbf2;
+  --week-3-check: #f1c232;
+
+  --week-4-bg: #d9ead3;
+  --week-4-date: #f3f9f1;
+  --week-4-cell: #f8fcf6;
+  --week-4-check: #6aa84f;
+
+  --week-5-bg: #d9d2e9;
+  --week-5-date: #efeaf7;
+  --week-5-cell: #f5f2fa;
+  --week-5-check: #8e7cc3;
+
+  --week-6-bg: #d0e8e8; /* teal (for 6th Mon-Sun week, e.g. 31-day months starting Sat/Sun) */
+  --week-6-date: #eaf5f5;
+  --week-6-cell: #f2fafa;
+  --week-6-check: #4a9b9b;
+
+  --sparkline: #d5a6bd;
+  --summary-header: #f3f3f3;
+  --done-bg: #bbfda3;
+  --empty-cell: #ead1dc;
+
+  --chart-1: #c27ba0;
+  --chart-2: #376092;
+  --chart-3: #f1c232;
+  --chart-4: #6aa84f;
+  --chart-5: #8e7cc3;
+
+  --sidebar: #fafafa;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #1f1f1f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fde2e8;
+  --sidebar-accent-foreground: #1f1f1f;
+  --sidebar-border: #ececec;
+  --sidebar-ring: #d5a6bd;
+}
+
+.dark {
+  --background: #14131a;
+  --foreground: #ece9f1;
+
+  --card: #1c1b24;
+  --card-foreground: #ece9f1;
+
+  --popover: #1c1b24;
+  --popover-foreground: #ece9f1;
+
+  --primary: #f3e8f3;
+  --primary-foreground: #14131a;
+
+  --secondary: #2a2733;
+  --secondary-foreground: #ece9f1;
+
+  --muted: #232128;
+  --muted-foreground: #a39fb0;
+
+  --accent: #3a2f44;
+  --accent-foreground: #ece9f1;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #2c2a35;
+  --input: #2c2a35;
+  --ring: #d5a6bd;
+
+  /* Week colors (dark theme) — desaturated + darkened */
+  --week-1-bg: #3d2a36;
+  --week-1-date: #2a1f26;
+  --week-1-cell: #221a20;
+  --week-1-check: #e08fb8;
+
+  --week-2-bg: #243346;
+  --week-2-date: #1a2433;
+  --week-2-cell: #181f2a;
+  --week-2-check: #6f9bc4;
+
+  --week-3-bg: #3d3a24;
+  --week-3-date: #2e2a1a;
+  --week-3-cell: #25211a;
+  --week-3-check: #f1c232;
+
+  --week-4-bg: #283a26;
+  --week-4-date: #1d2a1c;
+  --week-4-cell: #1a241a;
+  --week-4-check: #8fc97a;
+
+  --week-5-bg: #2e2940;
+  --week-5-date: #221f2f;
+  --week-5-cell: #1b1826;
+  --week-5-check: #ab9ad6;
+
+  --week-6-bg: #1f3333;
+  --week-6-date: #182929;
+  --week-6-cell: #142020;
+  --week-6-check: #6fc4c4;
+
+  --sparkline: #d5a6bd;
+  --summary-header: #232128;
+  --done-bg: #4a6b3a;
+  --empty-cell: #4a3a44;
+
+  --chart-1: #e08fb8;
+  --chart-2: #6f9bc4;
+  --chart-3: #f1c232;
+  --chart-4: #8fc97a;
+  --chart-5: #ab9ad6;
+
+  --sidebar: #1c1b24;
+  --sidebar-foreground: #ece9f1;
+  --sidebar-primary: #f3e8f3;
+  --sidebar-primary-foreground: #14131a;
+  --sidebar-accent: #3a2f44;
+  --sidebar-accent-foreground: #ece9f1;
+  --sidebar-border: #2c2a35;
+  --sidebar-ring: #d5a6bd;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html, body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Tiny "sparkline-style" bar used in the Monthly Progress Summary */
+.ht-bar-track {
+  background: color-mix(in oklab, var(--sparkline) 25%, transparent);
+  border-radius: 999px;
+  overflow: hidden;
+  height: 10px;
+  width: 70px;
+}
+.ht-bar-fill {
+  background: var(--sparkline);
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}

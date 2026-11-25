@@ -1,0 +1,99 @@
+// Prisma schema for the Habit Tracker app
+// Rebuild of "Habit tracker.xlsx" as a working Next.js web app.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Singleton settings row (id = "default")
+model Settings {
+  id         String   @id @default("default")
+  name       String   @default("Habit Tracker")
+  theme      String   @default("light") // "light" | "dark"
+  ignoreDays String   @default("[]") // JSON array of weekday names to ignore: ["Sunday", ...]
+  // Global "data version clock": bumped by EVERY mutating API call.
+  // The client compares this against its device-backup timestamp to detect
+  // when the server DB has been rolled back (e.g. workspace restore) and
+  // then automatically restores the backup onto the server.
+  lastChangedAt DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Month {
+  id        String   @id @default(cuid())
+  month     Int // 1..12
+  year      Int // e.g. 2026
+  title     String?  // optional custom month label
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  habits Habit[]
+  meals  Meal[]
+
+  @@unique([month, year])
+}
+
+model Habit {
+  id       String @id @default(cuid())
+  monthId  String
+  name     String
+  category String // emoji + category label, e.g. "😴 Sleep & Rest"
+  order    Int
+  goal     Int    @default(7) // target number of days for the month
+  month    Month  @relation(fields: [monthId], references: [id], onDelete: Cascade)
+
+  checkmarks Checkmark[]
+
+  // NOTE: no unique(monthId, order) — drag-and-drop reordering renumbers
+  // several rows in one transaction and a unique index would reject the
+  // transient intermediate states. Order is always renumbered 1..n by the API.
+}
+
+model Checkmark {
+  id      String  @id @default(cuid())
+  habitId String
+  day     Int // 1..31
+  done    Boolean @default(false)
+  habit   Habit   @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  @@unique([habitId, day])
+}
+
+// ---------------------------------------------------------------------------
+// Diet tracker — the exact same structure as Habit/Checkmark, but for daily
+// meals (breakfast, lunch, dinner, snacks…). Lives in its own tables so the
+// habits feature is untouched; ignore-days, goals, reordering and the
+// device-backup mirror work identically for both.
+// ---------------------------------------------------------------------------
+model Meal {
+  id       String @id @default(cuid())
+  monthId  String
+  name     String
+  category String // meal type label, e.g. "🍳 Breakfast"
+  order    Int
+  goal     Int    @default(30) // full-month goal (visible days of the month)
+  month    Month  @relation(fields: [monthId], references: [id], onDelete: Cascade)
+
+  checks MealCheck[]
+
+  @@index([monthId])
+
+  // NOTE: no unique(monthId, order) — same reason as Habit: drag-and-drop
+  // reordering renumbers several rows in one transaction.
+}
+
+model MealCheck {
+  id     String  @id @default(cuid())
+  mealId String
+  day    Int // 1..31
+  done   Boolean @default(false)
+  meal   Meal    @relation(fields: [mealId], references: [id], onDelete: Cascade)
+
+  @@unique([mealId, day])
+}
